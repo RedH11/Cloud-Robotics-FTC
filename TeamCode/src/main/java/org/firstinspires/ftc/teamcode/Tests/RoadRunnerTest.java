@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Testing;
+package org.firstinspires.ftc.teamcode.Tests;
 
 import com.acmerobotics.roadrunner.control.PIDCoefficients;
 import com.acmerobotics.roadrunner.control.PIDFController;
@@ -55,21 +55,24 @@ public class RoadRunnerTest extends LinearOpMode {
         );*/
 
         // Blue Block to Foundation
-        /*driveBase.followTrajectorySync(
+        driveBase.followTrajectorySync(
                 driveBase.trajectoryBuilder()
-                        .splineTo(new Pose2d(-35, 25, 0))
-                        .splineTo(new Pose2d(0, 45, 0))
-                        .splineTo(new Pose2d(45, 25, 90))
+                        .splineTo(new Pose2d(35, 20, 0))
+                        .splineTo(new Pose2d(80, 0, 90))
                         .build()
-        );*/
+        );
+
+        // Starting: -35 25 0
+        // 0, 45, 0
+        // 45 25 90
 
         // TEST PATH
-        driveBase.followTrajectorySync(
+        /*driveBase.followTrajectorySync(
                 driveBase.trajectoryBuilder()
                         .splineTo(new Pose2d(-45, 25, 0))
                         .splineTo(new Pose2d(-45, 25, 90))
                         .build()
-        );
+        );*/
 
         /*robot = new MainRobot(hardwareMap, telemetry);
         infoThread = new Thread(info);

@@ -17,7 +17,7 @@ import org.firstinspires.ftc.teamcode.RobotClasses.MainRobot;
  * Fix and test the wheel skew method
  */
 //Hi
-@Autonomous(name="Testing", group="Linear Opmode")
+@Autonomous(name="MainTesting", group="Linear Opmode")
 public class Testing extends LinearOpMode {
 
     MainRobot robot;
@@ -58,7 +58,7 @@ public class Testing extends LinearOpMode {
             try {
                 while (opModeIsActive()) {
 
-                    robot.park();
+                    robot.park(6);
                     stop();
                     // robot.action()
 
