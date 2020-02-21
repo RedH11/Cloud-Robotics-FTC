@@ -3,12 +3,15 @@ package org.firstinspires.ftc.teamcode.Tests;
 import com.acmerobotics.roadrunner.control.PIDCoefficients;
 import com.acmerobotics.roadrunner.control.PIDFController;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.constraints.DriveConstraints;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.RobotClasses.MainRobot;
 import org.firstinspires.ftc.teamcode.drive.mecanum.SampleMecanumDriveMR;
+
+import java.util.Vector;
 
 import static org.firstinspires.ftc.teamcode.drive.DriveConstants.kA;
 import static org.firstinspires.ftc.teamcode.drive.DriveConstants.kStatic;
@@ -31,6 +34,9 @@ public class RoadRunnerTest extends LinearOpMode {
     private PIDFController controller;
     private double correction;
     private double kG; // a constant factor for the voltage that is sent to the motors
+
+     Pose2d redBottomBottom = new Pose2d(0,0,0);
+    Pose2d redMiddleBottom = new Pose2d(-60,-21,-90);
     // https://acme-robotics.gitbook.io/road-runner/tour/feedforward-control
 
     // Roadrunner variables
@@ -54,11 +60,12 @@ public class RoadRunnerTest extends LinearOpMode {
                         .build()
         );*/
 
+        driveBase.setPoseEstimate(redMiddleBottom);
         // Blue Block to Foundation
         driveBase.followTrajectorySync(
                 driveBase.trajectoryBuilder()
-                        .splineTo(new Pose2d(35, 20, 0))
-                        .splineTo(new Pose2d(80, 0, 90))
+                        .lineTo(new Vector2d(-30, -51))
+                        //.splineTo(new Pose2d(48, -25, 90))
                         .build()
         );
 
@@ -84,6 +91,7 @@ public class RoadRunnerTest extends LinearOpMode {
         waitForStart();
 
         main.run();*/
+        stop();
     }
 
     private void initializePIDF() {
