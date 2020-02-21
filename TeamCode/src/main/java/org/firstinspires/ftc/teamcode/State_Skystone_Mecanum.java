@@ -201,7 +201,7 @@ public class State_Skystone_Mecanum extends LinearOpMode {
            telemetry.addData("rdf", fr);
            telemetry.addData("ldb", bl);
            telemetry.addData("ldf", fl);
-           telemetry.addData("tapeRotate", tapeRotate.getPosition());
+           //telemetry.addData("tapeRotate", tapeRotate.getPosition());
            telemetry.update();
        }
 
