@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -127,8 +128,13 @@ public class State_Skystone_Mecanum extends LinearOpMode {
 
 
     private void RotateTheTape(){
-        if(gamepad2.left_bumper)tapeRotate.setPower(1);
-        else if(gamepad2.right_bumper)tapeRotate.setPower(-1);
+        if(gamepad2.left_bumper){
+            tapeRotate.setPower(0.5);
+        }
+        else if(gamepad2.right_bumper){
+            tapeRotate.setPower(-0.5);
+
+        }
         else tapeRotate.setPower(0);
 
     }
@@ -168,6 +174,7 @@ public class State_Skystone_Mecanum extends LinearOpMode {
 
        tapeRotate = hardwareMap.crservo.get("tapeRotate");
 
+
        // Send telemetry message to signify robot waiting;
        telemetry.addData("Say", "Are you ready kids?");
    }
@@ -182,6 +189,7 @@ public class State_Skystone_Mecanum extends LinearOpMode {
        waitForStart();
        lFoundation.setPosition(1);
        rFoundation.setPosition(0);
+       tapeRotate.setPower(0);
        //spinner.setPosition(1);
 
 
