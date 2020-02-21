@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -24,7 +25,7 @@ public class State_Skystone_Mecanum extends LinearOpMode {
    Servo lFoundation;
    Servo rFoundation;
 
-   Servo tapeRotate;
+   CRServo tapeRotate;
 
 
    //doubles for motor power
@@ -119,19 +120,20 @@ public class State_Skystone_Mecanum extends LinearOpMode {
 
 
     private void tapeMeasure(){
-        if(gamepad2.dpad_up)tapeLift.setPower(-1);
-        else if(gamepad2.dpad_down)tapeLift.setPower(1);
+        if(gamepad1.dpad_up)tapeLift.setPower(1);
+        else if(gamepad1.dpad_down)tapeLift.setPower(-1);
         else tapeLift.setPower(0);
     }
 
-    /*
+
     private void RotateTheTape(){
-        if(gamepad2.left_bumper)tapeRotate.setPosition(0.5);
-        if(gamepad2.right_bumper)tapeRotate.setPosition(1.0);
+        if(gamepad2.left_bumper)tapeRotate.setPower(1);
+        else if(gamepad2.right_bumper)tapeRotate.setPower(-1);
+        else tapeRotate.setPower(0);
 
     }
 
-     */
+
 
 
    /*
@@ -159,12 +161,12 @@ public class State_Skystone_Mecanum extends LinearOpMode {
        lIntake = hardwareMap.dcMotor.get("lIntake");
        rIntake = hardwareMap.dcMotor.get("rIntake");
 
-       //measuretape = hardwareMap.dcMotor.get("measuretape");
+
 
        lFoundation = hardwareMap.servo.get("lFoundation");
        rFoundation = hardwareMap.servo.get("rFoundation");
 
-       //tapeRotate = hardwareMap.servo.get("tapeRotate");
+       tapeRotate = hardwareMap.crservo.get("tapeRotate");
 
        // Send telemetry message to signify robot waiting;
        telemetry.addData("Say", "Are you ready kids?");
@@ -192,7 +194,7 @@ public class State_Skystone_Mecanum extends LinearOpMode {
 
            tapeMeasure();
 
-           //RotateTheTape();
+           RotateTheTape();
 
 
 
@@ -201,7 +203,6 @@ public class State_Skystone_Mecanum extends LinearOpMode {
            telemetry.addData("rdf", fr);
            telemetry.addData("ldb", bl);
            telemetry.addData("ldf", fl);
-           //telemetry.addData("tapeRotate", tapeRotate.getPosition());
            telemetry.update();
        }
 
