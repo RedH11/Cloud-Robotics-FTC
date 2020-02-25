@@ -1,10 +1,12 @@
-package org.firstinspires.ftc.teamcode.Competition.BlocksAndFoundation;
+package org.firstinspires.ftc.teamcode.Competition.Auto.Park;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.RobotClasses.MainRobot;
 
-public class RBlockFoundation extends LinearOpMode {
+@Autonomous(name="Drive Forward 6 Inches", group="Linear Opmode")
+public class ParkRobot extends LinearOpMode {
 
     MainRobot robot;
 
@@ -14,7 +16,8 @@ public class RBlockFoundation extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-
+            robot.park(6);
+            stop();
             if (!opModeIsActive()) robot.stop();
         }
     }

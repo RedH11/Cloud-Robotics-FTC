@@ -3,8 +3,6 @@ package org.firstinspires.ftc.teamcode.Tests;
 import com.acmerobotics.roadrunner.control.PIDCoefficients;
 import com.acmerobotics.roadrunner.control.PIDFController;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.geometry.Pose2dKt;
-import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.constraints.DriveConstraints;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -16,8 +14,8 @@ import static org.firstinspires.ftc.teamcode.drive.DriveConstants.kA;
 import static org.firstinspires.ftc.teamcode.drive.DriveConstants.kStatic;
 import static org.firstinspires.ftc.teamcode.drive.DriveConstants.kV;
 
-@Autonomous(name="RoadRunner Test", group="Linear Opmode")
-public class RoadRunnerTest extends LinearOpMode {
+@Autonomous(name="Road Runner Two-Block Wall", group="Linear Opmode")
+public class RRTwoBlockWall extends LinearOpMode {
 
     private MainRobot robot;
     private Runnable info;
@@ -61,28 +59,30 @@ public class RoadRunnerTest extends LinearOpMode {
                         .build()
         );
 
-        // Get to blue foundation (by driving close to the bridge)
-        /*driveBase.followTrajectorySync(
-                driveBase.trajectoryBuilder()
-                        .reverse()
-                        .splineTo(new Pose2d(24, 20, -Math.PI/2))
-                        .splineTo(new Pose2d(24, 95, -Math.PI/2))
-                        .splineTo(new Pose2d(37, 95, Math.PI + (Math.PI/16))) // A little correction for the last turn
-                        .build()
-        );*/
-
-        // Get to the blue foundation (by driving close to the wall
-
+        // Get just past the foundation
         driveBase.followTrajectorySync(
                 driveBase.trajectoryBuilder()
                         .reverse()
                         .splineTo(new Pose2d(0, 20, -Math.PI/2))
-                        .splineTo(new Pose2d(0, 95, -Math.PI/2))
-                        .splineTo(new Pose2d(37, 95, Math.PI + (Math.PI/16))) // A little correction for the last turn
+                        .splineTo(new Pose2d(0, 60, -Math.PI/2))
                         .build()
         );
 
+        // Get back to the next block
+        driveBase.followTrajectorySync(
+                driveBase.trajectoryBuilder()
+                        .splineTo(new Pose2d(0, 20, -Math.PI/2))
+                        .splineTo(new Pose2d(40, 5, Math.PI/16))
+                        .build()
+        );
 
+        // Reset for testing
+        driveBase.followTrajectorySync(
+                driveBase.trajectoryBuilder()
+                        .reverse()
+                        .splineTo(new Pose2d(0, 0, 0))
+                        .build()
+        );
 
         /*
         Notes:

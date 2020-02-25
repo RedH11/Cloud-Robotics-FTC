@@ -17,6 +17,7 @@ import com.acmerobotics.roadrunner.drive.MecanumDrive;
 import com.acmerobotics.roadrunner.followers.HolonomicPIDVAFollower;
 import com.acmerobotics.roadrunner.followers.TrajectoryFollower;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.localization.Localizer;
 import com.acmerobotics.roadrunner.profile.MotionProfile;
 import com.acmerobotics.roadrunner.profile.MotionProfileGenerator;
 import com.acmerobotics.roadrunner.profile.MotionState;
@@ -63,6 +64,23 @@ public abstract class SampleMecanumDriveBase extends MecanumDrive {
     private double lastTimestamp;
 
     public SampleMecanumDriveBase() {
+        super(kV, kA, kStatic, TRACK_WIDTH);
+
+        dashboard = FtcDashboard.getInstance();
+        dashboard.setTelemetryTransmissionInterval(25);
+
+        clock = NanoClock.system();
+
+        mode = Mode.IDLE;
+
+        turnController = new PIDFController(HEADING_PID);
+        turnController.setInputBounds(0, 2 * Math.PI);
+
+        constraints = new MecanumConstraints(BASE_CONSTRAINTS, TRACK_WIDTH);
+        follower = new HolonomicPIDVAFollower(TRANSLATIONAL_PID, TRANSLATIONAL_PID, HEADING_PID);
+    }
+
+    public SampleMecanumDriveBase(double angleError) {
         super(kV, kA, kStatic, TRACK_WIDTH);
 
         dashboard = FtcDashboard.getInstance();

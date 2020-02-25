@@ -9,6 +9,12 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.DifferentialControlLoopCoefficients;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -34,15 +40,22 @@ public class SampleMecanumDriveMR extends SampleMecanumDriveBase {
     private DcMotor leftFront, leftRear, rightRear, rightFront;
     private List<DcMotor> motors;
     private BNO055IMU imu;
+    // Hunter's Additions
+    private Telemetry telemetry;
+    private double angleError;
 
-    public SampleMecanumDriveMR(HardwareMap hardwareMap) {
+    public SampleMecanumDriveMR(HardwareMap hardwareMap, Telemetry telemetry) {
         super();
+
+        this.telemetry = telemetry;
 
         // TODO: adjust the names of the following hardware devices to match your configuration
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
         imu.initialize(parameters);
+
+        initIMU();
 
         // TODO: if your hub is mounted vertically, remap the IMU axes so that the z-axis points
         // upward (normal to the floor) using a command like the following:
@@ -118,6 +131,38 @@ public class SampleMecanumDriveMR extends SampleMecanumDriveBase {
 
     @Override
     public double getRawExternalHeading() {
-        return imu.getAngularOrientation().firstAngle;
+        //return imu.getAngularOrientation().firstAngle;
+        double angle = getGyroAngle();
+        printAngle(angle * (180 / Math.PI));
+        return angle;
+    }
+
+    /**
+     * Retrieves the angle from the gyroscope and corrects for the error of the gyroscope
+     *
+     * NOTE: A coefficient of -1 is added to account for the gyro returning negative for the robot turning left which is counter-intuitive
+     * @return Returns the double value of the robot's angle
+     */
+    public double getGyroAngle() {
+        Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS);
+        return (AngleUnit.RADIANS.fromUnit(angles.angleUnit, angles.firstAngle) - angleError);
+    }
+
+    private void initIMU() {
+        while (angleError == 0) {
+            try {
+                wait(100);
+            } catch (Exception ex) {
+                //telemetry.addData("SYSTEM ERROR", "ERROR IN SYSTEM WAIT IN INITIMU");
+            }
+
+            Orientation tempAngles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS);
+            angleError = AngleUnit.DEGREES.fromUnit(tempAngles.angleUnit, tempAngles.firstAngle);
+        }
+    }
+
+    private void printAngle(double angle) {
+        telemetry.addData("Heading", angle);
+        telemetry.update();
     }
 }

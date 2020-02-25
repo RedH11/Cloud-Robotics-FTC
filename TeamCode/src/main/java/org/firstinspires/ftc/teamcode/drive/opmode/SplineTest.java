@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.drive.mecanum.SampleMecanumDriveREV;
 public class SplineTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
-        SampleMecanumDriveBase drive = new SampleMecanumDriveMR(hardwareMap);
+        SampleMecanumDriveBase drive = new SampleMecanumDriveMR(hardwareMap, telemetry);
 
         waitForStart();
 
