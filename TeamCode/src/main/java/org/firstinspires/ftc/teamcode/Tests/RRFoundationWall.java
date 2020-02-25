@@ -16,8 +16,8 @@ import static org.firstinspires.ftc.teamcode.drive.DriveConstants.kA;
 import static org.firstinspires.ftc.teamcode.drive.DriveConstants.kStatic;
 import static org.firstinspires.ftc.teamcode.drive.DriveConstants.kV;
 
-@Autonomous(name="RoadRunner Test", group="Linear Opmode")
-public class RoadRunnerTest extends LinearOpMode {
+@Autonomous(name="RoadRunner Foundation Wall", group="Linear Opmode")
+public class RRFoundationWall extends LinearOpMode {
 
     private MainRobot robot;
     private Runnable info;
@@ -61,28 +61,15 @@ public class RoadRunnerTest extends LinearOpMode {
                         .build()
         );
 
-        // Get to blue foundation (by driving close to the bridge)
-        /*driveBase.followTrajectorySync(
-                driveBase.trajectoryBuilder()
-                        .reverse()
-                        .splineTo(new Pose2d(24, 20, -Math.PI/2))
-                        .splineTo(new Pose2d(24, 95, -Math.PI/2))
-                        .splineTo(new Pose2d(37, 95, Math.PI + (Math.PI/16))) // A little correction for the last turn
-                        .build()
-        );*/
-
         // Get to the blue foundation (by driving close to the wall
-
         driveBase.followTrajectorySync(
                 driveBase.trajectoryBuilder()
                         .reverse()
                         .splineTo(new Pose2d(0, 20, -Math.PI/2))
-                        .splineTo(new Pose2d(0, 95, -Math.PI/2))
+                        .splineTo(new Pose2d(0, 70, -Math.PI/2)) // Was 90
                         .splineTo(new Pose2d(37, 95, Math.PI + (Math.PI/16))) // A little correction for the last turn
                         .build()
         );
-
-
 
         /*
         Notes:

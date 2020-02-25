@@ -1,10 +1,10 @@
-package org.firstinspires.ftc.teamcode.Competition.Foundation;
+package org.firstinspires.ftc.teamcode.Competition.Auto.Foundation;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.RobotClasses.MainRobot;
 
-public class BlueFoundation extends LinearOpMode {
+public class RedFoundation extends LinearOpMode {
 
     MainRobot robot;
 

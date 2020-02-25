@@ -16,8 +16,8 @@ import static org.firstinspires.ftc.teamcode.drive.DriveConstants.kA;
 import static org.firstinspires.ftc.teamcode.drive.DriveConstants.kStatic;
 import static org.firstinspires.ftc.teamcode.drive.DriveConstants.kV;
 
-@Autonomous(name="RoadRunner Test", group="Linear Opmode")
-public class RoadRunnerTest extends LinearOpMode {
+@Autonomous(name="RoadRunner Foundation Bridge", group="Linear Opmode")
+public class RRFoundationBridge extends LinearOpMode {
 
     private MainRobot robot;
     private Runnable info;
@@ -36,7 +36,8 @@ public class RoadRunnerTest extends LinearOpMode {
     // https://acme-robotics.gitbook.io/road-runner/tour/feedforward-control
 
     // Roadrunner variables
-    private DriveConstraints constraints = new DriveConstraints(20, 40, 80, 1, 2, 4);
+    private DriveConstraints constraints = new DriveConstraints(30, 50, 80, 1, 2, 4);
+    // 20, 40, 80, 1, 2, 4
     //private Trajectory traj = TrajectoryGenerator.generateTrajectory(path, constraints);
 
 
@@ -62,27 +63,19 @@ public class RoadRunnerTest extends LinearOpMode {
         );
 
         // Get to blue foundation (by driving close to the bridge)
-        /*driveBase.followTrajectorySync(
-                driveBase.trajectoryBuilder()
-                        .reverse()
-                        .splineTo(new Pose2d(24, 20, -Math.PI/2))
-                        .splineTo(new Pose2d(24, 95, -Math.PI/2))
-                        .splineTo(new Pose2d(37, 95, Math.PI + (Math.PI/16))) // A little correction for the last turn
-                        .build()
-        );*/
 
-        // Get to the blue foundation (by driving close to the wall
-
+        /**
+         * Changes:
+         * Reduced x 24 to 22 to stop collisions with bridge
+         */
         driveBase.followTrajectorySync(
                 driveBase.trajectoryBuilder()
                         .reverse()
-                        .splineTo(new Pose2d(0, 20, -Math.PI/2))
-                        .splineTo(new Pose2d(0, 95, -Math.PI/2))
+                        .splineTo(new Pose2d(22, 20, -Math.PI/2))
+                        .splineTo(new Pose2d(22, 70, -Math.PI/2)) // y was 95
                         .splineTo(new Pose2d(37, 95, Math.PI + (Math.PI/16))) // A little correction for the last turn
                         .build()
         );
-
-
 
         /*
         Notes:
