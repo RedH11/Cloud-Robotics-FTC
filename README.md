@@ -1,10 +1,10 @@
-# Road Runner Quickstart
+# Cloud-Robotics FTC
 
-An example FTC project using [Road Runner](https://github.com/acmerobotics/road-runner). **Note:** Road Runner is in alpha and many of its APIs are incubating.
+Code from the 2020 FTC team of Cloud Robotics. 
 
 ## Acknowledgements
 
-The quickstart uses the fantastic [RevExtensions2 library](https://github.com/OpenFTC/RevExtensions2) to take advantage of REV Expansion Hub bulk reads (thanks @FROGbots-4634!).
+This project uses pathing code provided by [Road Runner](https://github.com/acmerobotics/road-runner).
 
 ## Installation
 
@@ -18,4 +18,4 @@ For more detailed instructions on getting Road Runner setup in your own project,
 
 ## Documentation
 
-Check out the new [online quickstart documentation](https://acme-robotics.gitbook.io/road-runner/quickstart).
+Check out Road Runner's [online quickstart documentation](https://acme-robotics.gitbook.io/road-runner/quickstart).
