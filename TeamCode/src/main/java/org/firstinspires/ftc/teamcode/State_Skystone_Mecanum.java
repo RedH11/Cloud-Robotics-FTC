@@ -35,6 +35,8 @@ public class State_Skystone_Mecanum extends LinearOpMode {
     double bl = 0;
     double br = 0;
 
+    double DriveSpeed = 1;
+
     int g = 0;
     int liftP = 0;
     int tape = 0;
@@ -68,10 +70,21 @@ public class State_Skystone_Mecanum extends LinearOpMode {
         if(bl>1)bl=1;
         if(br>1)br=1;
 
-        ldf.setPower(fl);
-        rdf.setPower(fr);
-        ldb.setPower(bl);
-        rdb.setPower(br);
+        if(gamepad1.right_bumper){
+           fl = -1;
+           fr = 1;
+           bl = 1;
+           br = -1;
+        }else if(gamepad1.left_bumper){
+            fl = 1;
+            fr = -1;
+            bl = -1;
+            br = 1;
+        }
+        ldf.setPower(fl*DriveSpeed);
+        rdf.setPower(fr*DriveSpeed);
+        ldb.setPower(bl*DriveSpeed);
+        rdb.setPower(br*DriveSpeed);
     }
 
     /*
@@ -129,17 +142,23 @@ public class State_Skystone_Mecanum extends LinearOpMode {
 
     private void RotateTheTape(){
         if(gamepad2.left_bumper){
-            tapeRotate.setPower(0.5);
+            tapeRotate.setPower(0);
         }
         else if(gamepad2.right_bumper){
-            tapeRotate.setPower(-0.5);
+            tapeRotate.setPower(-1);
 
         }
-        else tapeRotate.setPower(0);
-
+        else tapeRotate.setPower(-0.5);
     }
 
+    public void DSToggle(){
+        if(gamepad1.y){
+            if(DriveSpeed == 1)DriveSpeed=0.25;
+            else DriveSpeed = 1;
+            while(gamepad1.y);
+        }
 
+    }
 
 
    /*
@@ -206,11 +225,11 @@ public class State_Skystone_Mecanum extends LinearOpMode {
 
 
 
-
-           telemetry.addData("rdb", br);
-           telemetry.addData("rdf", fr);
-           telemetry.addData("ldb", bl);
-           telemetry.addData("ldf", fl);
+           telemetry.addData("Drive Speed = ", DriveSpeed);
+           telemetry.addData("rdb", br*DriveSpeed);
+           telemetry.addData("rdf", fr*DriveSpeed);
+           telemetry.addData("ldb", bl*DriveSpeed);
+           telemetry.addData("ldf", fl*DriveSpeed);
            telemetry.update();
        }
 
