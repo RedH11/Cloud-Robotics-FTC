@@ -23,8 +23,13 @@ For more detailed instructions on getting Road Runner setup in your own project,
 1. Download the dependencies mentioned by [AlexeyAB](https://github.com/AlexeyAB/darknet) to install darknet
 2. Make a dataset of images (a hundred / object for simple objects works, and include images without the object to leave blank)
 3. Label the images (I used [LabelImg](https://github.com/tzutalin/labelImg)) with the yolo setting turned on (for the images without the objects 
+4. Create the configuration files for training an object [instructions here](https://github.com/AlexeyAB/darknet#how-to-train-to-detect-your-custom-objects)
+5. Download [darknet53.conv.74](https://pjreddie.com/media/files/darknet53.conv.74)
+6. (I used Windows PowerShell) Navigate to the darknet file and start training (example code shown below, but change files based on what you named them)
 
-
+```
+.\darknet detector train data/obj.data yolo-obj.cfg darknet53.conv.74
+```
 
 ## Tips for Creating a Custom Neural Network for FTC
 
@@ -54,3 +59,10 @@ For more information on how YOLO works, watch Joseph Redmon's TED Talk:
 " target="_blank"><img src="http://img.youtube.com/vi/Cgxsv1riJhI/0.jpg" 
 alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
 
+## Bugs
+
+Currently there is a bug where files duplicate themselves causing names which break the gradle build, and to fix this type 
+```
+.\gradlew clean
+```
+into the terminal of the project (for IntelliJ, the terminal can be found with View-ToolWindows-Terminal) 
