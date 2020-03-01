@@ -19,7 +19,7 @@ public class NNVisionOnlyTest extends LinearOpMode {
         // initial - find starting locations and print them to telemetry as 0's and 1's
         // display - show the identifications of the neural network ont he screen
         // running - tbd ability to run the neural network to scout for stones on the go
-        vision = new NNVision(hardwareMap, telemetry, NNMode.initial);
+        vision = new NNVision(hardwareMap, telemetry, NNMode.display);
         telemetry.addData("Say", "Done Initializing!");
 
         waitForStart();
