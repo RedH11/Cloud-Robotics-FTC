@@ -50,8 +50,11 @@ public class NNVision {
     private Telemetry telemetry;
 
     // YOLO Configuration files
+    //private String configFile = "yolo-tiny_custom.cfg.txt";
+    //private String weightsFile = "yolo-tiny_custom_13000.weights";
+
     private String configFile = "yolo-tiny_custom.cfg.txt";
-    private String weightsFile = "yolo-tiny_custom_13000.weights";
+    private String weightsFile = "yolo-tiny_64_custom_3000.weights"; // Change # to the correct number from the file
 
     /*
     Smaller NN File Presets for Testing
@@ -91,22 +94,8 @@ public class NNVision {
         phoneCam = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
         phoneCam.openCameraDevice();
         phoneCam.setPipeline(new StageSwitchingPipeline());
-    }
-
-    /**
-     * Draws rectangles around identified objects with labels of the object name and confidence
-     */
-    public void identifyObjects() {
-        mode = NNMode.display;
         phoneCam.startStreaming(rows, cols, OpenCvCameraRotation.UPRIGHT); //display on RC
-    }
 
-    /**
-     * Creates an array to represent the locations of each of the blocks in front of the robot at the start
-     */
-    public void findStartingSkyblock() {
-        mode = NNMode.initial;
-        phoneCam.startStreaming(rows, cols, OpenCvCameraRotation.UPRIGHT); //display on RC
     }
 
     private void createNN() {
@@ -169,6 +158,7 @@ public class NNVision {
                 if (mode == NNMode.display) {
                     runNNWithDisplay(frame);
                 } else if (mode == NNMode.initial) {
+
                     blockArrangements = getStartingBlockPositions(frame);
 
                     // Make an output from what it read
