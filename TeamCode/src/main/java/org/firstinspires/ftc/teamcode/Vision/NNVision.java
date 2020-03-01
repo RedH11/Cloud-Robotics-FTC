@@ -53,8 +53,8 @@ public class NNVision {
     //private String configFile = "yolo-tiny_custom.cfg.txt";
     //private String weightsFile = "yolo-tiny_custom_13000.weights";
 
-    private String configFile = "yolo-tiny_custom.cfg.txt";
-    private String weightsFile = "yolo-tiny_64_custom_3000.weights"; // Change # to the correct number from the file
+    private String configFile = "yolo-obj_256.cfg.txt";
+    private String weightsFile = "yolo-tiny_256_custom_14000.weights"; // Change # to the correct number from the file
 
     /*
     Smaller NN File Presets for Testing
@@ -131,8 +131,8 @@ public class NNVision {
 
 
         // My training
-        private String configFile = "yolo-obj_256.cfg.txt";
-        private String weightsFile = "yolo-tiny_256_custom_9000.weights";
+        private String configFile = "yolo-obj_64.cfg.txt";
+        private String weightsFile = "yolo-tiny_64_custom_3000.weights";
 
         // Darknet Training
         //private String configFile = "darknet.cfg.txt";
