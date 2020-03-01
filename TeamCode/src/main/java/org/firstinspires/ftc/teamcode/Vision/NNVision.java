@@ -92,7 +92,6 @@ public class NNVision {
 
         // My training
 <<<<<<< HEAD
-<<<<<<< HEAD
         private String configFile = "yolo-obj_256.cfg.txt";
         private String weightsFile = "yolo-tiny_256_custom_9000.weights";
 
@@ -108,15 +107,6 @@ public class NNVision {
         private String weightsFile = "darknet.weights";
 >>>>>>> parent of 4a6b971... Merge branch 'HunterW' of https://github.com/RedH11/road-runner-quickstart into HunterW
 
-=======
-        //private String configFile = "yolo-obj.cfg.txt";
-        //private String weightsFile = "yolo-obj_4000.weights";
-
-        // Darknet Training
-        private String configFile = "darknet.cfg.txt";
-        private String weightsFile = "darknet.weights";
-
->>>>>>> parent of 4a6b971... Merge branch 'HunterW' of https://github.com/RedH11/road-runner-quickstart into HunterW
         // Get the path to the files
         File sdcard = Environment.getExternalStorageDirectory();
         File config = new File(sdcard, "FIRST/" + configFile);
@@ -159,7 +149,6 @@ public class NNVision {
         @TargetApi(Build.VERSION_CODES.N)
         private List<String> getOutputNames(Net net) {
             List<String> names = new ArrayList<>();
-<<<<<<< HEAD
 
             List<Integer> outLayers = net.getUnconnectedOutLayers().toList();
             List<String> layersNames = net.getLayerNames();
@@ -177,25 +166,6 @@ public class NNVision {
             outBlobNames = getOutputNames(net);
             printToTel("4");
 
-=======
-
-            List<Integer> outLayers = net.getUnconnectedOutLayers().toList();
-            List<String> layersNames = net.getLayerNames();
-
-            outLayers.forEach((item) -> names.add(layersNames.get(item - 1)));//unfold and create R-CNN layers from the loaded YOLO model//
-            return names;
-        }
-
-        private void runNN(Mat frame) throws InterruptedException {
-            contoursList.clear();
-
-            printToTel("2");
-            Net net = Dnn.readNetFromDarknet(config.getAbsolutePath(), weights.getAbsolutePath());
-            printToTel("3");
-            outBlobNames = getOutputNames(net);
-            printToTel("4");
-
->>>>>>> parent of 4a6b971... Merge branch 'HunterW' of https://github.com/RedH11/road-runner-quickstart into HunterW
             Mat blob = Dnn.blobFromImage(frame, 0.00392, size, new Scalar(0), true, false); // We feed one frame of video into the network at a time, we have to convert the image to a blob. A blob is a pre-processed image that serves as the input.//
             net.setInput(blob);
             net.forward(result, outBlobNames); //Feed forward the model to get output
