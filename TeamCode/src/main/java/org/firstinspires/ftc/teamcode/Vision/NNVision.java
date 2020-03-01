@@ -91,12 +91,12 @@ public class NNVision {
         private Stage[] stages = Stage.values();
 
         // My training
-        //private String configFile = "yolo-obj.cfg.txt";
-        //private String weightsFile = "yolo-obj_4000.weights";
+        private String configFile = "yolo-obj_256.cfg.txt";
+        private String weightsFile = "yolo-tiny_256_custom_9000.weights";
 
         // Darknet Training
-        private String configFile = "darknet.cfg.txt";
-        private String weightsFile = "darknet.weights";
+        //private String configFile = "darknet.cfg.txt";
+        //private String weightsFile = "darknet.weights";
 
         // Get the path to the files
         File sdcard = Environment.getExternalStorageDirectory();
