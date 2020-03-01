@@ -91,12 +91,21 @@ public class NNVision {
         private Stage[] stages = Stage.values();
 
         // My training
+<<<<<<< HEAD
         private String configFile = "yolo-obj_256.cfg.txt";
         private String weightsFile = "yolo-tiny_256_custom_9000.weights";
 
         // Darknet Training
         //private String configFile = "darknet.cfg.txt";
         //private String weightsFile = "darknet.weights";
+=======
+        //private String configFile = "yolo-obj.cfg.txt";
+        //private String weightsFile = "yolo-obj_4000.weights";
+
+        // Darknet Training
+        private String configFile = "darknet.cfg.txt";
+        private String weightsFile = "darknet.weights";
+>>>>>>> parent of 4a6b971... Merge branch 'HunterW' of https://github.com/RedH11/road-runner-quickstart into HunterW
 
         // Get the path to the files
         File sdcard = Environment.getExternalStorageDirectory();
