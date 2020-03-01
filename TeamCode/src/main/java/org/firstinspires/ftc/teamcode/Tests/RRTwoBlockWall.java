@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode.Tests;
 
+import android.app.Activity;
+import android.content.res.AssetManager;
+
 import com.acmerobotics.roadrunner.control.PIDCoefficients;
 import com.acmerobotics.roadrunner.control.PIDFController;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
@@ -9,6 +12,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.RobotClasses.MainRobot;
 import org.firstinspires.ftc.teamcode.drive.mecanum.SampleMecanumDriveMR;
+import org.tensorflow.contrib.android.TensorFlowInferenceInterface;
 
 import static org.firstinspires.ftc.teamcode.drive.DriveConstants.kA;
 import static org.firstinspires.ftc.teamcode.drive.DriveConstants.kStatic;
@@ -40,7 +44,7 @@ public class RRTwoBlockWall extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-
+        //TensorFlowInferenceInterface yourmom = new TensorFlowInferenceInterface(AssetManager(), "file");
         telemetry.addData("Say", "Initializing...");
         telemetry.update();
         SampleMecanumDriveMR driveBase = new SampleMecanumDriveMR(hardwareMap, telemetry);
