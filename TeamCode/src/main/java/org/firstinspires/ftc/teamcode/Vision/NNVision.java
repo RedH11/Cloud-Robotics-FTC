@@ -129,9 +129,28 @@ public class NNVision {
         private Stage stageToRenderToViewport = Stage.detection;
         private Stage[] stages = Stage.values();
 
+<<<<<<< HEAD
+        // My training
+<<<<<<< HEAD
+        private String configFile = "yolo-obj_256.cfg.txt";
+        private String weightsFile = "yolo-tiny_256_custom_9000.weights";
+
+        // Darknet Training
+        //private String configFile = "darknet.cfg.txt";
+        //private String weightsFile = "darknet.weights";
+=======
+        //private String configFile = "yolo-obj.cfg.txt";
+        //private String weightsFile = "yolo-obj_4000.weights";
+
+        // Darknet Training
+        private String configFile = "darknet.cfg.txt";
+        private String weightsFile = "darknet.weights";
+>>>>>>> parent of 4a6b971... Merge branch 'HunterW' of https://github.com/RedH11/road-runner-quickstart into HunterW
+=======
         // For Frame Input testing (saving files to the phone to see what the NN sees)
         private int frameCount = 0;
         private int fileCount = 0;
+>>>>>>> parent of 7d8b776... Revert "Merge branch 'HunterW' of https://github.com/RedH11/road-runner-quickstart into HunterW"
 
         int[] blockArrangements;
 
