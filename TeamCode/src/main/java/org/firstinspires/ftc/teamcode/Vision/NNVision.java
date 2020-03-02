@@ -132,7 +132,7 @@ public class NNVision {
 
         // My training
         private String configFile = "yolo-obj_64.cfg.txt";
-        private String weightsFile = "yolo-tiny_64_custom_3000.weights";
+        private String weightsFile = "yolo-tiny_custom_10000.weights";
 
         // Darknet Training
         //private String configFile = "darknet.cfg.txt";

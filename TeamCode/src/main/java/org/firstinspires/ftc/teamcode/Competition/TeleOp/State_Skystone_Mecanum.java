@@ -4,15 +4,13 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-/**
- * TODO: MAKE A SMALL ADJUSTMENT MODE FOR CAPPING ACCURACY
- *
- */
+
 @TeleOp(name="State_Skystone_Mecanum")
-public class State_Skystone_Mecanum extends LinearOpMode{
+public class State_Skystone_Mecanum extends LinearOpMode {
     DcMotor ldf;
     DcMotor ldb;
     DcMotor rdf;
@@ -28,7 +26,7 @@ public class State_Skystone_Mecanum extends LinearOpMode{
     Servo lFoundation;
     Servo rFoundation;
 
-    //Servo tapeRotate;
+    //CRServo tapeRotate;
 
 
     //doubles for motor power
@@ -36,6 +34,8 @@ public class State_Skystone_Mecanum extends LinearOpMode{
     double fr = 0;
     double bl = 0;
     double br = 0;
+
+    double DriveSpeed = 1;
 
     int g = 0;
     int liftP = 0;
@@ -58,8 +58,6 @@ public class State_Skystone_Mecanum extends LinearOpMode{
         rightx = gamepad1.right_stick_x;
         rightx = - rightx;
 
-
-
         fl = -(lefty-leftx+rightx);
         fr = -(lefty+leftx-rightx);
         bl = -(lefty+leftx+rightx);
@@ -70,10 +68,22 @@ public class State_Skystone_Mecanum extends LinearOpMode{
         if(bl>1)bl=1;
         if(br>1)br=1;
 
-        ldf.setPower(fl);
-        rdf.setPower(fr);
-        ldb.setPower(bl);
-        rdb.setPower(br);
+        DSToggle();
+        if(gamepad1.right_bumper){
+            fl = -1;
+            fr = 1;
+            bl = 1;
+            br = -1;
+        }else if(gamepad1.left_bumper){
+            fl = 1;
+            fr = -1;
+            bl = -1;
+            br = 1;
+        }
+        ldf.setPower(fl*DriveSpeed);
+        rdf.setPower(fr*DriveSpeed);
+        ldb.setPower(bl*DriveSpeed);
+        rdb.setPower(br*DriveSpeed);
     }
 
     /*
@@ -102,6 +112,7 @@ public class State_Skystone_Mecanum extends LinearOpMode{
 
         telemetry.addData("lIntake",lint);
         telemetry.addData("rIntake",rint);
+        telemetry.update();
     }
 
 
@@ -122,18 +133,33 @@ public class State_Skystone_Mecanum extends LinearOpMode{
 
 
     private void tapeMeasure(){
-        if(gamepad2.dpad_up)tapeLift.setPower(-1);
-        else if(gamepad2.dpad_down)tapeLift.setPower(1);
+        if(gamepad1.dpad_up)tapeLift.setPower(1);
+        else if(gamepad1.dpad_down)tapeLift.setPower(-1);
         else tapeLift.setPower(0);
     }
+
 /*
     private void RotateTheTape(){
-        if(gamepad2.left_bumper)tapeRotate.setPosition(0.5);
-        if(gamepad2.right_bumper)tapeRotate.setPosition(1.0);
+        if(gamepad2.left_bumper){
+            tapeRotate.setPower(0);
+        }
+        else if(gamepad2.right_bumper){
+            tapeRotate.setPower(-1);
 
+        }
+        else tapeRotate.setPower(-0.5);
     }
 
  */
+
+    public void DSToggle(){
+        if(gamepad1.y){
+            if(DriveSpeed == 1)DriveSpeed=0.25;
+            else DriveSpeed = 1;
+            while(gamepad1.y);
+        }
+
+    }
 
 
     /*
@@ -157,18 +183,17 @@ public class State_Skystone_Mecanum extends LinearOpMode{
         rdf.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
         tapeLift = hardwareMap.dcMotor.get("tapeLift");
-        tapeLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        tapeLift.setDirection(DcMotor.Direction.REVERSE);
 
         lIntake = hardwareMap.dcMotor.get("lIntake");
         rIntake = hardwareMap.dcMotor.get("rIntake");
 
-        //measuretape = hardwareMap.dcMotor.get("measuretape");
+
 
         lFoundation = hardwareMap.servo.get("lFoundation");
         rFoundation = hardwareMap.servo.get("rFoundation");
 
-        //tapeRotate = hardwareMap.servo.get("tapeRotate");
+        //tapeRotate = hardwareMap.crservo.get("tapeRotate");
+
 
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Say", "Are you ready kids?");
@@ -184,8 +209,7 @@ public class State_Skystone_Mecanum extends LinearOpMode{
         waitForStart();
         lFoundation.setPosition(1);
         rFoundation.setPosition(0);
-        //spinner.setPosition(1);
-
+        //tapeRotate.setPower(0);
 
         while(opModeIsActive()) {
             intake();
@@ -200,12 +224,11 @@ public class State_Skystone_Mecanum extends LinearOpMode{
 
 
 
-
-            telemetry.addData("rdb", br);
-            telemetry.addData("rdf", fr);
-            telemetry.addData("ldb", bl);
-            telemetry.addData("ldf", fl);
-            //telemetry.addData("tapeRotate", tapeRotate.getPosition());
+            telemetry.addData("Drive Speed = ", DriveSpeed);
+            telemetry.addData("rdb", br*DriveSpeed);
+            telemetry.addData("rdf", fr*DriveSpeed);
+            telemetry.addData("ldb", bl*DriveSpeed);
+            telemetry.addData("ldf", fl*DriveSpeed);
             telemetry.update();
         }
 
@@ -213,3 +236,5 @@ public class State_Skystone_Mecanum extends LinearOpMode{
 
 
 }
+
+

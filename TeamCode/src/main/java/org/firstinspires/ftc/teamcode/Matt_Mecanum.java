@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
-@TeleOp(name="State_Skystone_Mecanum")
+@TeleOp(name="Matt_Mecanum")
 public class Matt_Mecanum extends LinearOpMode {
    DcMotor ldf;
    DcMotor ldb;
