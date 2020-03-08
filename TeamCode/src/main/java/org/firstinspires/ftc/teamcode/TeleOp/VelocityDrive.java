@@ -157,12 +157,10 @@ public class VelocityDrive extends LinearOpMode {
 
     }
 
-
-
     private void tapeMeasure(){
-        if(gamepad1.dpad_up)ticks++;
-        else if(gamepad1.dpad_down)ticks--;
-
+        if(gamepad1.dpad_up) tapeLift.setPower(1);
+        else if(gamepad1.dpad_down) tapeLift.setPower(-1);
+        else tapeLift.setPower(0);
     }
 
 /*
