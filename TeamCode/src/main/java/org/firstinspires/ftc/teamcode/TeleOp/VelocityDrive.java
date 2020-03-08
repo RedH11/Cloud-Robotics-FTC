@@ -15,8 +15,8 @@ public class VelocityDrive extends LinearOpMode {
     DcMotorEx rdf;
     DcMotorEx rdb;
 
-    DcMotor rIntake;
-    DcMotor lIntake;
+    DcMotorEx rIntake;
+    DcMotorEx lIntake;
 
 
     DcMotor tapeLift;
@@ -34,7 +34,8 @@ public class VelocityDrive extends LinearOpMode {
     double bl = 0;
     double br = 0;
 
-    double ticks = 1500;
+    double ticks = 2010;
+    double intakeTicks = 1650;
 
     double DriveSpeed = 1;
 
@@ -151,8 +152,8 @@ public class VelocityDrive extends LinearOpMode {
             rint = 0;
             lint = 0;
         }
-        rIntake.setPower(rint);
-        lIntake.setPower(lint);
+        rIntake.setVelocity(intakeTicks*rint);
+        lIntake.setVelocity(intakeTicks*lint);
 
     }
 
@@ -207,8 +208,8 @@ public class VelocityDrive extends LinearOpMode {
 
         tapeLift = hardwareMap.dcMotor.get("tapeLift");
 
-        lIntake = hardwareMap.dcMotor.get("lIntake");
-        rIntake = hardwareMap.dcMotor.get("rIntake");
+        lIntake = (DcMotorEx) hardwareMap.dcMotor.get("lIntake");
+        rIntake = (DcMotorEx) hardwareMap.dcMotor.get("rIntake");
 
         //tapeRotate = hardwareMap.crservo.get("tapeRotate");
 
@@ -233,11 +234,13 @@ public class VelocityDrive extends LinearOpMode {
             tapeMeasure();
 
             //RotateTheTape();
-
+            if(gamepad1.x)intakeTicks++;
+            if(gamepad1.b)intakeTicks--;
 
 
             telemetry.addData("Drive Speed = ", DriveSpeed);
             telemetry.addData("Ticks", ticks);
+            telemetry.addData("Intake Ticks", intakeTicks);
             telemetry.addData("rdb", br*DriveSpeed*ticks);
             telemetry.addData("rdf", fr*DriveSpeed*ticks);
             telemetry.addData("ldb", bl*DriveSpeed*ticks);
