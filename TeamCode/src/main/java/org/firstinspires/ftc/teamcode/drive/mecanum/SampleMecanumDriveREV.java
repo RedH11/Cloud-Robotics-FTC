@@ -111,7 +111,7 @@ public class SampleMecanumDriveREV extends SampleMecanumDriveBase {
         return wheelVelocities;
     }
 
-    private final double leftSkew = 0.015;
+    private final double leftSkew = 0.0000;
 
     @Override
     public void setMotorPowers(double v, double v1, double v2, double v3) {

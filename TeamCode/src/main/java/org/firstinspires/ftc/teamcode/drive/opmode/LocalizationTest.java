@@ -20,9 +20,9 @@ import org.firstinspires.ftc.teamcode.drive.mecanum.SampleMecanumDriveREV;
 @Config
 @TeleOp(group = "drive")
 public class LocalizationTest extends LinearOpMode {
-    public static double VX_WEIGHT = 1;
-    public static double VY_WEIGHT = 1;
-    public static double OMEGA_WEIGHT = 1;
+    public static double VX_WEIGHT = 0.7;
+    public static double VY_WEIGHT = 0.7;
+    public static double OMEGA_WEIGHT = 0.7;
 
     @Override
     public void runOpMode() throws InterruptedException {

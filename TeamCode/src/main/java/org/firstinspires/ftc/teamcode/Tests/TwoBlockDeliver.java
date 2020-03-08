@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.RobotUtils.BlueCoords;
+import org.firstinspires.ftc.teamcode.Tools.RobotTools;
 import org.firstinspires.ftc.teamcode.drive.mecanum.SampleMecanumDriveBase;
 import org.firstinspires.ftc.teamcode.drive.mecanum.SampleMecanumDriveREV;
 
@@ -12,6 +13,7 @@ import org.firstinspires.ftc.teamcode.drive.mecanum.SampleMecanumDriveREV;
 public class TwoBlockDeliver extends LinearOpMode {
 
     SampleMecanumDriveBase drive;
+    RobotTools tools;
 
     BlueCoords coords = new BlueCoords();
 
@@ -30,24 +32,37 @@ public class TwoBlockDeliver extends LinearOpMode {
 
     private void initialize() {
         drive = new SampleMecanumDriveREV(hardwareMap);
+        tools = new RobotTools(hardwareMap);
     }
 
     private void act() {
 
         drive.setPoseEstimate(new Pose2d(0, 0, 0));
 
-        drive.followTrajectorySync(
-                drive.trajectoryBuilder()
-                        .splineTo(coords.blockCoords.get(1))
-                        .build()
-        );
+        //for (int i = 1; i <= coords.blockCoords.keySet().size(); i++) {
+
+        tools.intake(true, 0.4);
+
+            drive.followTrajectorySync(
+                    drive.trajectoryBuilder()
+                            .splineTo(coords.blockCoords.get(6))
+                            .build()
+            );
+
+        tools.intake(false, 0);
 
         drive.followTrajectorySync(
-                drive.trajectoryBuilder()
-                        .reverse()
-                        .splineTo(new Pose2d(0, 0, 0))
-                        .build()
-        );
+                    drive.trajectoryBuilder()
+                            .reverse()
+                            .splineTo(new Pose2d(0, 0, 0))
+                            .build()
+            );
+
+            sleep(2000);
+
+        //}
+
+
     }
 
     private void printTel(String caption, String message) {
