@@ -34,6 +34,8 @@ public class VelocityDrive extends LinearOpMode {
     double bl = 0;
     double br = 0;
 
+    double ticks = 1500;
+
     double DriveSpeed = 1;
 
     int g = 0;
@@ -116,15 +118,16 @@ public class VelocityDrive extends LinearOpMode {
             bl = -1;
             br = 1;
         }
-        ldf.setPower(-fl*DriveSpeed);
-        rdf.setPower(fr*DriveSpeed);
-        ldb.setPower(-bl*DriveSpeed);
-        rdb.setPower(br*DriveSpeed);
 
-        ldf.setVelocity(12);
-        ldb.setVelocity(12);
-        rdf.setVelocity(12);
-        rdb.setVelocity(12);
+        //ldf.setPower(-fl*DriveSpeed);
+        //rdf.setPower(fr*DriveSpeed);
+        //ldb.setPower(-bl*DriveSpeed);
+        //rdb.setPower(br*DriveSpeed);
+
+        ldf.setVelocity(-fl*ticks*DriveSpeed);
+        ldb.setVelocity(-bl*ticks*DriveSpeed);
+        rdf.setVelocity(fr*ticks*DriveSpeed);
+        rdb.setVelocity(br*ticks*DriveSpeed);
     }
 
     /*
@@ -151,32 +154,14 @@ public class VelocityDrive extends LinearOpMode {
         rIntake.setPower(rint);
         lIntake.setPower(lint);
 
-        telemetry.addData("lIntake",lint);
-        telemetry.addData("rIntake",rint);
-        telemetry.update();
-    }
-
-
-    public void foundationServo(){
-        if(gamepad1.left_stick_button || gamepad2.left_stick_button){
-            if(lFoundation.getPosition() == 1){
-                lFoundation.setPosition(0);
-                rFoundation.setPosition(1);
-            }else{
-                lFoundation.setPosition(1);
-                rFoundation.setPosition(0);
-            }
-        }
-        while (gamepad1.left_stick_button || gamepad2.left_stick_button);
-
     }
 
 
 
     private void tapeMeasure(){
-        if(gamepad1.dpad_up)tapeLift.setPower(1);
-        else if(gamepad1.dpad_down)tapeLift.setPower(-1);
-        else tapeLift.setPower(0);
+        if(gamepad1.dpad_up)ticks++;
+        else if(gamepad1.dpad_down)ticks--;
+
     }
 
 /*
@@ -225,11 +210,6 @@ public class VelocityDrive extends LinearOpMode {
         lIntake = hardwareMap.dcMotor.get("lIntake");
         rIntake = hardwareMap.dcMotor.get("rIntake");
 
-
-
-        lFoundation = hardwareMap.servo.get("lFoundation");
-        rFoundation = hardwareMap.servo.get("rFoundation");
-
         //tapeRotate = hardwareMap.crservo.get("tapeRotate");
 
 
@@ -245,16 +225,10 @@ public class VelocityDrive extends LinearOpMode {
         initHardware();
 
         waitForStart();
-        lFoundation.setPosition(1);
-        rFoundation.setPosition(0);
-        //tapeRotate.setPower(0);
-
         while(opModeIsActive()) {
             intake();
 
             newMecanumDrive();
-
-            foundationServo();
 
             tapeMeasure();
 
@@ -263,10 +237,11 @@ public class VelocityDrive extends LinearOpMode {
 
 
             telemetry.addData("Drive Speed = ", DriveSpeed);
-            telemetry.addData("rdb", br*DriveSpeed);
-            telemetry.addData("rdf", fr*DriveSpeed);
-            telemetry.addData("ldb", bl*DriveSpeed);
-            telemetry.addData("ldf", fl*DriveSpeed);
+            telemetry.addData("Ticks", ticks);
+            telemetry.addData("rdb", br*DriveSpeed*ticks);
+            telemetry.addData("rdf", fr*DriveSpeed*ticks);
+            telemetry.addData("ldb", bl*DriveSpeed*ticks);
+            telemetry.addData("ldf", fl*DriveSpeed*ticks);
             telemetry.update();
         }
 
