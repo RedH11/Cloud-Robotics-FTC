@@ -31,7 +31,7 @@ public class DriveConstants {
      * @DeviceProperties and @MotorType annotations.
      */
     private static final MotorConfigurationType MOTOR_CONFIG =
-            MotorConfigurationType.getMotorType(RevRobotics20HdHexMotor.class);
+            MotorConfigurationType.getMotorType(RevRobotics40HdHexMotor.class);
 
     /*
      * Set the first flag appropriately. If using the built-in motor velocity PID, update
@@ -48,9 +48,13 @@ public class DriveConstants {
      * angular distances although most angular parameters are wrapped in Math.toRadians() for
      * convenience. Make sure to exclude any gear ratio included in MOTOR_CONFIG from GEAR_RATIO.
      */
-    public static double WHEEL_RADIUS = 3.56;
-    public static double GEAR_RATIO = 1.0; // output (wheel) speed / input (motor) speed
-    public static double TRACK_WIDTH = 16.8; // Guess
+    public static double WHEEL_RADIUS = 2; //3.56 (higher makes it go less distance) // 2
+    public static double GEAR_RATIO = 2.801; // output (wheel) speed / input (motor) speed // 2
+    public static double TRACK_WIDTH = 12.75;
+
+    //64,
+    // 4 -> 37-38
+
 
     /*
      * These are the feedforward parameters used to model the drive motor behavior. If you are using
@@ -71,12 +75,11 @@ public class DriveConstants {
      * forces acceleration-limited profiling).
      */
     public static DriveConstraints BASE_CONSTRAINTS = new DriveConstraints(
-            25.0, 25.0, 0.0,
+            30.0, 30.0, 0.0,
             Math.toRadians(180.0), Math.toRadians(180.0), 0.0
     );
 
     // max vel was 30
-
 
     public static double encoderTicksToInches(double ticks) {
         return WHEEL_RADIUS * 2 * Math.PI * GEAR_RATIO * ticks / MOTOR_CONFIG.getTicksPerRev();
