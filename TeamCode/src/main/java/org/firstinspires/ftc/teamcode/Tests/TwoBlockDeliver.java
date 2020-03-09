@@ -66,20 +66,14 @@ public class TwoBlockDeliver extends LinearOpMode {
             }
         });
 
-        Thread acting = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (opModeIsActive()) {
-                    act();
-                    if (!isStopRequested()) break;
-                }
-            }
-        });
 
         angle.start();
-        acting.start();
 
-        while (opModeIsActive()) {}
+        while (opModeIsActive()) {
+            act();
+            stop();
+            if(isStopRequested())stop();
+        }
     }
 
     private void initialize() {
@@ -95,9 +89,9 @@ public class TwoBlockDeliver extends LinearOpMode {
 
         getSkyStones(5);
 
-        getBlock(1);
-        getBlock(2);
-        getBlock(3);
+        //getBlock(1);
+        //getBlock(2);
+        //getBlock(3);
     }
 
     private void getSkyStones(int blockNum) {

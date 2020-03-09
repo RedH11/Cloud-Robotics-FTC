@@ -35,8 +35,8 @@ public class RobotTools {
         power *= - 1;
 
         if (on) {
-            lIntake.setPower(power);
-            rIntake.setPower(power);
+            lIntake.setVelocity(-1500);
+            rIntake.setVelocity(-1500);
         } else {
             lIntake.setPower(0);
             rIntake.setPower(0);

@@ -16,7 +16,7 @@ public class BlueCoords {
         {
             put(1, new Pose2d(startBlocKDist, 26, Math.PI/4));
             //put(2, new Pose2d(startBlocKDist, 22, Math.PI/8));
-            put(2, new Pose2d(startBlocKDist, 22, underAngle));
+            put(2, new Pose2d(startBlocKDist, 24, underAngle));
             put(3, new Pose2d(startBlocKDist, 7, Math.PI/8));
             put(4, new Pose2d(startBlocKDist, 3, Math.PI/32)); // works
             put(5, new Pose2d(startBlocKDist, -2, Math.PI/16)); // works
