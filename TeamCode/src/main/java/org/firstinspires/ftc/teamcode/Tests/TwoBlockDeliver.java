@@ -18,9 +18,8 @@ public class TwoBlockDeliver extends LinearOpMode {
 
     BlueCoords coords = new BlueCoords();
 
-    private int blockNum = 1;
-
-    private double offset = 0.0;
+    private int blockNum = 5;
+    private int deliveredStoneCount = 0;
 
     ElapsedTime timer;
 
@@ -94,16 +93,70 @@ public class TwoBlockDeliver extends LinearOpMode {
 
         drive.setPoseEstimate(new Pose2d(0, 0, 0));
 
+        getSkyStones(5);
+
+        getBlock(1);
+        getBlock(2);
+        getBlock(3);
+    }
+
+    private void getSkyStones(int blockNum) {
         tools.intake(true, 0.7);
 
         drive.followTrajectorySync(
                 drive.trajectoryBuilder()
-                        .splineTo(coords.blockCoords.get(5))
+                        .splineTo(coords.initialBlockCoords.get(blockNum))
                         .build()
         );
 
         tools.intake(false, 0);
 
+        deliverBlock();
+
+        tools.intake(true, 0.7);
+
+        drive.followTrajectorySync(
+                drive.trajectoryBuilder()
+                        .splineTo(coords.initialBlockCoords.get(blockNum - 3))
+                        .build()
+        );
+
+        tools.intake(false, 0);
+
+        deliverBlock();
+    }
+
+    private void getBlock(int blockNum) {
+        tools.intake(true, 0.7);
+
+        if (blockNum == 4) {
+            drive.followTrajectorySync(
+                    drive.trajectoryBuilder()
+                            .splineTo(coords.post4coords.get(deliveredStoneCount + 1))
+                            .build()
+            );
+        } else if (blockNum == 5) {
+            drive.followTrajectorySync(
+                    drive.trajectoryBuilder()
+                            .splineTo(coords.post5coords.get(deliveredStoneCount + 1))
+                            .build()
+            );
+        } else if (blockNum == 6) {
+            drive.followTrajectorySync(
+                    drive.trajectoryBuilder()
+                            .splineTo(coords.post6coords.get(deliveredStoneCount + 1))
+                            .build()
+            );
+        }
+
+        tools.intake(false, 0);
+
+        deliveredStoneCount++;
+
+        deliverBlock();
+    }
+
+    private void deliverBlock() {
         // Deliver block
         drive.followTrajectorySync(
                 drive.trajectoryBuilder()
@@ -113,38 +166,9 @@ public class TwoBlockDeliver extends LinearOpMode {
                         .build()
         );
 
-        tools.intake(true, 0.7);
+        tools.intake(true, 1);
 
-        sleep(2000);
-
-        drive.followTrajectorySync(
-                drive.trajectoryBuilder()
-                        .splineTo(coords.blockCoords.get(4))
-                        .build()
-        );
-
-        tools.intake(false, 0);
-
-        // Deliver block
-        drive.followTrajectorySync(
-                drive.trajectoryBuilder()
-                        .reverse()
-                        //.splineTo(coords.underBridgeBackwardBridge)
-                        .splineTo(coords.bridgeDeliveryBackward)
-                        .build()
-        );
-
-
-        /*
-        // Get another block (reset for now)
-        drive.followTrajectorySync(
-                drive.trajectoryBuilder()
-                        .splineTo(new Pose2d(0, 0, 0))
-                        .build()
-        );*/
-
-        tools.intake(false, 0);
-
+        sleep(300);
     }
 
     private void printTel(String caption, String message) {

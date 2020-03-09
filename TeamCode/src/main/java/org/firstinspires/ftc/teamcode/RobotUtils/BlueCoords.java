@@ -9,13 +9,14 @@ import java.util.HashMap;
 
 public class BlueCoords {
 
-
+    private final double underAngle = -Math.PI/2;
     private final int startBlocKDist = 36; // 35
 
-    public final HashMap<Integer, Pose2d> blockCoords = new HashMap<Integer, Pose2d>() {
+    public final HashMap<Integer, Pose2d> initialBlockCoords = new HashMap<Integer, Pose2d>() {
         {
-            put(1, new Pose2d(startBlocKDist, 20, Math.PI/4));
-            put(2, new Pose2d(startBlocKDist, 8, Math.PI/8));
+            put(1, new Pose2d(startBlocKDist, 26, Math.PI/4));
+            //put(2, new Pose2d(startBlocKDist, 22, Math.PI/8));
+            put(2, new Pose2d(startBlocKDist, 22, underAngle));
             put(3, new Pose2d(startBlocKDist, 7, Math.PI/8));
             put(4, new Pose2d(startBlocKDist, 3, Math.PI/32)); // works
             put(5, new Pose2d(startBlocKDist, -2, Math.PI/16)); // works
@@ -23,7 +24,30 @@ public class BlueCoords {
         }
     };
 
-    private final double underAngle = -Math.PI/2;
+    public final HashMap<Integer, Pose2d> post4coords = new HashMap<Integer, Pose2d>() {
+        {
+            put(1, new Pose2d(startBlocKDist, 26, Math.PI/4));
+            put(2, new Pose2d(startBlocKDist, 22, Math.PI/8));
+            put(3, new Pose2d(startBlocKDist, 7, Math.PI/8));
+        }
+    };
+
+    public final HashMap<Integer, Pose2d> post5coords = new HashMap<Integer, Pose2d>() {
+        {
+            put(1, new Pose2d(startBlocKDist, 26, Math.PI/4));
+            put(2, new Pose2d(startBlocKDist, 22, Math.PI/8));
+            put(3, new Pose2d(startBlocKDist, 7, Math.PI/8));
+        }
+    };
+
+    public final HashMap<Integer, Pose2d> post6coords = new HashMap<Integer, Pose2d>() {
+        {
+            put(1, new Pose2d(startBlocKDist, 26, Math.PI/4));
+            put(2, new Pose2d(startBlocKDist, 22, Math.PI/8));
+            put(3, new Pose2d(startBlocKDist, 7, Math.PI/8));
+        }
+    };
+
     private final double bridgeX = 10;
     private final double wallX = 0;
 
