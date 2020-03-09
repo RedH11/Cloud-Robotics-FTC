@@ -55,12 +55,32 @@ public class TwoBlockDeliver extends LinearOpMode {
 
         waitForStart();
 
-        act();
+        Thread angle = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (!opModeIsActive()) {
+                    telemetry.addData("Angle", drive.getExternalHeading());
+                    telemetry.update();
 
-        /*while (opModeIsActive()) {
+                    if (isStopRequested()) break;
+                }
+            }
+        });
 
-            if (isStopRequested()) break;
-        }*/
+        Thread acting = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (opModeIsActive()) {
+                    act();
+                    if (!isStopRequested()) break;
+                }
+            }
+        });
+
+        angle.start();
+        acting.start();
+
+        while (opModeIsActive()) {}
     }
 
     private void initialize() {
@@ -84,12 +104,11 @@ public class TwoBlockDeliver extends LinearOpMode {
 
         tools.intake(false, 0);
 
-
-        // Deliver the block
+        // Deliver block
         drive.followTrajectorySync(
                 drive.trajectoryBuilder()
                         .reverse()
-                        .splineTo(coords.underBridgeBackwardBridge)
+                        //.splineTo(coords.underBridgeBackwardBridge)
                         .splineTo(coords.bridgeDeliveryBackward)
                         .build()
         );
@@ -98,15 +117,31 @@ public class TwoBlockDeliver extends LinearOpMode {
 
         sleep(2000);
 
-        // Get another block (reset for now)
+        drive.followTrajectorySync(
+                drive.trajectoryBuilder()
+                        .splineTo(coords.blockCoords.get(4))
+                        .build()
+        );
+
+        tools.intake(false, 0);
+
+        // Deliver block
         drive.followTrajectorySync(
                 drive.trajectoryBuilder()
                         .reverse()
-                        .splineTo(new Pose2d(0, 0, 0))
+                        //.splineTo(coords.underBridgeBackwardBridge)
+                        .splineTo(coords.bridgeDeliveryBackward)
                         .build()
         );
 
 
+        /*
+        // Get another block (reset for now)
+        drive.followTrajectorySync(
+                drive.trajectoryBuilder()
+                        .splineTo(new Pose2d(0, 0, 0))
+                        .build()
+        );*/
 
         tools.intake(false, 0);
 

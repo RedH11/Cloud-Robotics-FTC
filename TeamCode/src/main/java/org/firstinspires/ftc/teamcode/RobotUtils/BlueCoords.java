@@ -5,6 +5,8 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+// I think this is actually red
+
 public class BlueCoords {
 
 
@@ -18,12 +20,11 @@ public class BlueCoords {
             put(4, new Pose2d(startBlocKDist, 3, Math.PI/32)); // works
             put(5, new Pose2d(startBlocKDist, -2, Math.PI/16)); // works
             put(6, new Pose2d(startBlocKDist, -10, -Math.PI/16)); // works
-
         }
     };
 
-    private final double underAngle = Math.PI/2;
-    private final double bridgeX = 15;
+    private final double underAngle = -Math.PI/2;
+    private final double bridgeX = 10;
     private final double wallX = 0;
 
     public final Pose2d underBridgeForwardBridge = new Pose2d(bridgeX, -20, underAngle);
@@ -32,7 +33,7 @@ public class BlueCoords {
 
     public final Pose2d underBridgeBackwardBridge = new Pose2d(bridgeX, -20, -underAngle);
     public final Pose2d underBridgeBackwardWall = new Pose2d(wallX, -20, -underAngle);
-    public final Pose2d bridgeDeliveryBackward = new Pose2d(bridgeX, -30, -underAngle);
+    public final Pose2d bridgeDeliveryBackward = new Pose2d(10, -40, -underAngle);
 
 /*
         Notes:
