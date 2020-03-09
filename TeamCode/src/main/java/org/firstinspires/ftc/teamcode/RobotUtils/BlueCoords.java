@@ -8,22 +8,43 @@ import java.util.HashMap;
 public class BlueCoords {
 
 
-    private final int startBlocKDist = 35; // 35
+    private final int startBlocKDist = 36; // 35
 
     public final HashMap<Integer, Pose2d> blockCoords = new HashMap<Integer, Pose2d>() {
         {
+            put(1, new Pose2d(startBlocKDist, 20, Math.PI/4));
+            put(2, new Pose2d(startBlocKDist, 8, Math.PI/8));
+            put(3, new Pose2d(startBlocKDist, 7, Math.PI/8));
+            put(4, new Pose2d(startBlocKDist, 3, Math.PI/32)); // works
+            put(5, new Pose2d(startBlocKDist, -2, Math.PI/16)); // works
+            put(6, new Pose2d(startBlocKDist, -10, -Math.PI/16)); // works
 
-            // FILL IN THE COORDS
-            put(1, new Pose2d(startBlocKDist, 17, -Math.PI/4));
-            put(2, new Pose2d(startBlocKDist, 12, 0));
-            put(3, new Pose2d(startBlocKDist, 7, 0));
-            put(4, new Pose2d(startBlocKDist, -3, 0));
-            put(5, new Pose2d(startBlocKDist, -10, 0));
-            put(6, new Pose2d(startBlocKDist, -15, -Math.PI/4));
-
-            // 456 further
         }
     };
+
+    private final double underAngle = Math.PI/2;
+    private final double bridgeX = 15;
+    private final double wallX = 0;
+
+    public final Pose2d underBridgeForwardBridge = new Pose2d(bridgeX, -20, underAngle);
+    public final Pose2d underBridgeForwardWall = new Pose2d(wallX, -20, underAngle);
+    public final Pose2d bridgeDeliveryForward = new Pose2d(bridgeX, -30, underAngle);
+
+    public final Pose2d underBridgeBackwardBridge = new Pose2d(bridgeX, -20, -underAngle);
+    public final Pose2d underBridgeBackwardWall = new Pose2d(wallX, -20, -underAngle);
+    public final Pose2d bridgeDeliveryBackward = new Pose2d(bridgeX, -30, -underAngle);
+
+/*
+        Notes:
+
+        (In terms of the original heading)
+        -Y: Robot towards right
+        Y: Robot towards left
+        X: Forwards
+        -X: Backwards
+
+        Negative angle turns right
+ */
 
 
 }
