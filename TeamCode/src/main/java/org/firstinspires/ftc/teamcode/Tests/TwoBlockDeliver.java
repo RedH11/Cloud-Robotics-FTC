@@ -111,13 +111,14 @@ public class TwoBlockDeliver extends LinearOpMode {
 
         drive.followTrajectorySync(
                 drive.trajectoryBuilder()
+                        .splineTo(new Pose2d(15, 0, -Math.PI))
                         .splineTo(coords.initialBlockCoords.get(blockNum - 3))
                         .build()
         );
 
         tools.intake(false, 0);
 
-        deliverBlock();
+        //deliverBlock();
     }
 
     private void getBlock(int blockNum) {
@@ -162,7 +163,7 @@ public class TwoBlockDeliver extends LinearOpMode {
 
         tools.intake(true, 1);
 
-        sleep(300);
+        sleep(200);
     }
 
     private void printTel(String caption, String message) {

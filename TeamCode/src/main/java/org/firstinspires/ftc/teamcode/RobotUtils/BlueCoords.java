@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.RobotUtils;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 // I think this is actually red
@@ -10,41 +9,41 @@ import java.util.HashMap;
 public class BlueCoords {
 
     private final double underAngle = -Math.PI/2;
-    private final int startBlocKDist = 36; // 35
+    private final int startBlockAndSome = 36; // 35
+    private final int startBlockDist = 32;
 
     public final HashMap<Integer, Pose2d> initialBlockCoords = new HashMap<Integer, Pose2d>() {
         {
-            put(1, new Pose2d(startBlocKDist, 26, Math.PI/4));
-            //put(2, new Pose2d(startBlocKDist, 22, Math.PI/8));
-            put(2, new Pose2d(startBlocKDist, 24, underAngle));
-            put(3, new Pose2d(startBlocKDist, 7, Math.PI/8));
-            put(4, new Pose2d(startBlocKDist, 3, Math.PI/32)); // works
-            put(5, new Pose2d(startBlocKDist, -2, Math.PI/16)); // works
-            put(6, new Pose2d(startBlocKDist, -10, -Math.PI/16)); // works
+            put(1, new Pose2d(startBlockDist, 26, -underAngle / 4));
+            put(2, new Pose2d(startBlockDist, 29, -underAngle));
+            put(3, new Pose2d(startBlockDist, 7, -underAngle / 4));
+            put(4, new Pose2d(startBlockAndSome, 3, Math.PI/32)); // works
+            put(5, new Pose2d(startBlockAndSome, -2, Math.PI/16)); // works
+            put(6, new Pose2d(startBlockAndSome, -10, -Math.PI/16)); // works
         }
     };
 
     public final HashMap<Integer, Pose2d> post4coords = new HashMap<Integer, Pose2d>() {
         {
-            put(1, new Pose2d(startBlocKDist, 26, Math.PI/4));
-            put(2, new Pose2d(startBlocKDist, 22, Math.PI/8));
-            put(3, new Pose2d(startBlocKDist, 7, Math.PI/8));
+            put(1, new Pose2d(startBlockAndSome, 26, Math.PI/4));
+            put(2, new Pose2d(startBlockAndSome, 22, Math.PI/8));
+            put(3, new Pose2d(startBlockAndSome, 7, Math.PI/8));
         }
     };
 
     public final HashMap<Integer, Pose2d> post5coords = new HashMap<Integer, Pose2d>() {
         {
-            put(1, new Pose2d(startBlocKDist, 26, Math.PI/4));
-            put(2, new Pose2d(startBlocKDist, 22, Math.PI/8));
-            put(3, new Pose2d(startBlocKDist, 7, Math.PI/8));
+            put(1, new Pose2d(startBlockAndSome, 26, Math.PI/4));
+            put(2, new Pose2d(startBlockAndSome, 22, Math.PI/8));
+            put(3, new Pose2d(startBlockAndSome, 7, Math.PI/8));
         }
     };
 
     public final HashMap<Integer, Pose2d> post6coords = new HashMap<Integer, Pose2d>() {
         {
-            put(1, new Pose2d(startBlocKDist, 26, Math.PI/4));
-            put(2, new Pose2d(startBlocKDist, 22, Math.PI/8));
-            put(3, new Pose2d(startBlocKDist, 7, Math.PI/8));
+            put(1, new Pose2d(startBlockAndSome, 26, Math.PI/4));
+            put(2, new Pose2d(startBlockAndSome, 22, Math.PI/8));
+            put(3, new Pose2d(startBlockAndSome, 7, Math.PI/8));
         }
     };
 
