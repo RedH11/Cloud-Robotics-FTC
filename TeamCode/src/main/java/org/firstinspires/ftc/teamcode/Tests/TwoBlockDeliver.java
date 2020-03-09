@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.RobotUtils.BlueCoords;
+import org.firstinspires.ftc.teamcode.RobotUtils.RedCoords;
 import org.firstinspires.ftc.teamcode.Tools.RobotTools;
 import org.firstinspires.ftc.teamcode.drive.mecanum.SampleMecanumDriveBase;
 import org.firstinspires.ftc.teamcode.drive.mecanum.SampleMecanumDriveREV;
@@ -16,7 +16,7 @@ public class TwoBlockDeliver extends LinearOpMode {
     SampleMecanumDriveBase drive;
     RobotTools tools;
 
-    BlueCoords coords = new BlueCoords();
+    RedCoords coords = new RedCoords();
 
     private int blockNum = 5;
     private int deliveredStoneCount = 0;
