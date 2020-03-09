@@ -15,17 +15,10 @@ public class VelocityDrive extends LinearOpMode {
     DcMotorEx rdf;
     DcMotorEx rdb;
 
-    DcMotor rIntake;
-    DcMotor lIntake;
-
+    DcMotorEx rIntake;
+    DcMotorEx lIntake;
 
     DcMotor tapeLift;
-
-    //Servo spinner;
-    Servo lFoundation;
-    Servo rFoundation;
-
-    //CRServo tapeRotate;
 
 
     //doubles for motor power
@@ -34,7 +27,8 @@ public class VelocityDrive extends LinearOpMode {
     double bl = 0;
     double br = 0;
 
-    double ticks = 1500;
+    double ticks = 2100;
+    double intakeTicks = 1600;
 
     double DriveSpeed = 1;
 
@@ -106,17 +100,22 @@ public class VelocityDrive extends LinearOpMode {
         if(bl>1)bl=1;
         if(br>1)br=1;
 
+        if(fl<-1)fl=-1;
+        if(fr<-1)fr=-1;
+        if(bl<-1)bl=-1;
+        if(br<-1)br=-1;
+
         DSToggle();
         if(gamepad1.right_bumper){
-            fl = -1;
-            fr = 1;
-            bl = 1;
-            br = -1;
-        }else if(gamepad1.left_bumper){
             fl = 1;
             fr = -1;
             bl = -1;
             br = 1;
+        }else if(gamepad1.left_bumper){
+            fl = -1;
+            fr = 1;
+            bl = 1;
+            br = -1;
         }
 
         //ldf.setPower(-fl*DriveSpeed);
@@ -151,32 +150,20 @@ public class VelocityDrive extends LinearOpMode {
             rint = 0;
             lint = 0;
         }
-        rIntake.setPower(rint);
-        lIntake.setPower(lint);
+        rIntake.setVelocity(rint*intakeTicks);
+        lIntake.setPower(lint*intakeTicks);
 
     }
 
 
 
     private void tapeMeasure(){
-        if(gamepad1.dpad_up)ticks++;
-        else if(gamepad1.dpad_down)ticks--;
-
+        if(gamepad1.dpad_up)tapeLift.setPower(1);
+        else if(gamepad1.dpad_down)tapeLift.setPower(-1);
+        else tapeLift.setPower(0);
     }
 
-/*
-    private void RotateTheTape(){
-        if(gamepad2.left_bumper){
-            tapeRotate.setPower(0);
-        }
-        else if(gamepad2.right_bumper){
-            tapeRotate.setPower(-1);
 
-        }
-        else tapeRotate.setPower(-0.5);
-    }
-
- */
 
     public void DSToggle(){
         if(gamepad1.y){
@@ -207,10 +194,9 @@ public class VelocityDrive extends LinearOpMode {
 
         tapeLift = hardwareMap.dcMotor.get("tapeLift");
 
-        lIntake = hardwareMap.dcMotor.get("lIntake");
-        rIntake = hardwareMap.dcMotor.get("rIntake");
+        lIntake = (DcMotorEx) hardwareMap.dcMotor.get("lIntake");
+        rIntake = (DcMotorEx) hardwareMap.dcMotor.get("rIntake");
 
-        //tapeRotate = hardwareMap.crservo.get("tapeRotate");
 
 
         // Send telemetry message to signify robot waiting;
@@ -232,7 +218,8 @@ public class VelocityDrive extends LinearOpMode {
 
             tapeMeasure();
 
-            //RotateTheTape();
+            if(gamepad1.x)ticks++;
+            else if(gamepad1.b)ticks--;
 
 
 
