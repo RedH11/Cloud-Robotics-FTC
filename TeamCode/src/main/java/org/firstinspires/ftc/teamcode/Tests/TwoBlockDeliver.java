@@ -66,20 +66,14 @@ public class TwoBlockDeliver extends LinearOpMode {
             }
         });
 
-        Thread acting = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (opModeIsActive()) {
-                    act();
-                    if (!isStopRequested()) break;
-                }
-            }
-        });
 
         angle.start();
-        acting.start();
 
-        while (opModeIsActive()) {}
+        while (opModeIsActive()) {
+            act();
+            stop();
+            if(isStopRequested())stop();
+        }
     }
 
     private void initialize() {
@@ -95,9 +89,9 @@ public class TwoBlockDeliver extends LinearOpMode {
 
         getSkyStones(5);
 
-        getBlock(1);
-        getBlock(2);
-        getBlock(3);
+        //getBlock(1);
+        //getBlock(2);
+        //getBlock(3);
     }
 
     private void getSkyStones(int blockNum) {
@@ -117,13 +111,14 @@ public class TwoBlockDeliver extends LinearOpMode {
 
         drive.followTrajectorySync(
                 drive.trajectoryBuilder()
+                        .splineTo(new Pose2d(15, 0, -Math.PI))
                         .splineTo(coords.initialBlockCoords.get(blockNum - 3))
                         .build()
         );
 
         tools.intake(false, 0);
 
-        deliverBlock();
+        //deliverBlock();
     }
 
     private void getBlock(int blockNum) {
@@ -168,7 +163,7 @@ public class TwoBlockDeliver extends LinearOpMode {
 
         tools.intake(true, 1);
 
-        sleep(300);
+        sleep(200);
     }
 
     private void printTel(String caption, String message) {
