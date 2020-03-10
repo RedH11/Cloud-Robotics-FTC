@@ -4,6 +4,8 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -28,6 +30,9 @@ public class State_Skystone_Mecanum extends LinearOpMode {
     DcMotor lIntake;
 
     DcMotor tapeLift;
+
+    Servo lFoundation;
+    Servo rFoundation;
 
     private BNO055IMU imu;
     //private BNO055IMU imu2;
@@ -142,21 +147,21 @@ public class State_Skystone_Mecanum extends LinearOpMode {
         telemetry.addData("rIntake",rint);
     }
 
-    /*public void foundationServo(){
-        if(gamepad1.left_stick_button || gamepad2.left_stick_button){
-            if(lFoundation.getPosition() == 1){
+    public void foundationServo() {
+        if (gamepad1.left_bumper || gamepad1.right_bumper){
+            if (lFoundation.getPosition() == 1) {
+                lFoundation.setPosition(0.5);
+                rFoundation.setPosition(0.5);
+            } else {
                 lFoundation.setPosition(0);
-                rFoundation.setPosition(1);
-            }else{
-                lFoundation.setPosition(1);
                 rFoundation.setPosition(0);
             }
         }
+
         while (gamepad1.left_stick_button || gamepad2.left_stick_button);
+    }
 
-    }*/
-
-    private void tapeMeasure(){
+    private void tapeMeasure() {
         if (gamepad1.dpad_up) tapeLift.setPower(-1);
         else if (gamepad1.dpad_down) tapeLift.setPower(1);
         else tapeLift.setPower(0);
@@ -169,7 +174,6 @@ public class State_Skystone_Mecanum extends LinearOpMode {
     }
 
  */
-
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -205,6 +209,15 @@ public class State_Skystone_Mecanum extends LinearOpMode {
 
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Say", "Ready");
+
+        lFoundation = hardwareMap.servo.get("lFoundation");
+        rFoundation = hardwareMap.servo.get("rFoundation");
+
+        rFoundation.setDirection(Servo.Direction.REVERSE);
+        lFoundation.setDirection(Servo.Direction.REVERSE);
+        // Set the servos to their initial position
+        lFoundation.setPosition(-1);
+        rFoundation.setPosition(-1);
     }
 
     /*
@@ -230,7 +243,7 @@ public class State_Skystone_Mecanum extends LinearOpMode {
 
             mecanumDrive();
 
-            //foundationServo();
+            foundationServo();
 
             tapeMeasure();
 
