@@ -30,13 +30,11 @@ public class RobotTools {
         rIntake.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
-    public void intake(boolean on, double power) {
-
-        power *= - 1;
+    public void intake(boolean on) {
 
         if (on) {
-            lIntake.setVelocity(-1500);
-            rIntake.setVelocity(-1500);
+            lIntake.setVelocity(-1700);
+            rIntake.setVelocity(-1700);
         } else {
             lIntake.setPower(0);
             rIntake.setPower(0);

@@ -18,10 +18,13 @@ public class TwoBlockDeliver extends LinearOpMode {
 
     RedCoords coords = new RedCoords();
 
-    private int blockNum = 5;
+    private int blockNum = 4;
     private int deliveredStoneCount = 0;
 
     ElapsedTime timer;
+
+    // DRIVING VARIABLES
+    private final int strafeDist = 13;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -29,18 +32,14 @@ public class TwoBlockDeliver extends LinearOpMode {
         initialize();
         printTel("Init", "Ready!");
 
-        /*while (!gamepad1.a && !isStarted()) {
+        while (!gamepad1.a && !isStarted()) {
 
             if (timer.milliseconds() > 500) {
 
                 if (gamepad1.dpad_up) {
                     if (blockNum < 6) blockNum++;
                 } else if (gamepad1.dpad_down) {
-                    if (blockNum > 0) blockNum--;
-                } else if (gamepad1.dpad_right) {
-                    offset += .5;
-                } else if (gamepad1.dpad_left) {
-                    offset -= .5;
+                    if (blockNum > 4) blockNum--;
                 }
 
                 timer.reset();
@@ -48,9 +47,8 @@ public class TwoBlockDeliver extends LinearOpMode {
             }
 
             telemetry.addData("Block Num", blockNum);
-            telemetry.addData("Offset", offset);
             telemetry.update();
-        }*/
+        }
 
         waitForStart();
 
@@ -66,8 +64,7 @@ public class TwoBlockDeliver extends LinearOpMode {
             }
         });
 
-
-        angle.start();
+        //angle.start();
 
         while (opModeIsActive()) {
             act();
@@ -87,7 +84,9 @@ public class TwoBlockDeliver extends LinearOpMode {
 
         drive.setPoseEstimate(new Pose2d(0, 0, 0));
 
-        getSkyStones(5);
+        getSkyStones(blockNum);
+
+        parkBot();
 
         //getBlock(1);
         //getBlock(2);
@@ -95,7 +94,21 @@ public class TwoBlockDeliver extends LinearOpMode {
     }
 
     private void getSkyStones(int blockNum) {
-        tools.intake(true, 0.7);
+        switch (blockNum) {
+            case (4):
+                pos4Actions();
+                break;
+            case (5):
+                pos5Actions();
+                break;
+            case (6):
+                pos6Actions();
+                break;
+        }
+    }
+
+    private void pos4Actions() {
+        tools.intake(true);
 
         drive.followTrajectorySync(
                 drive.trajectoryBuilder()
@@ -103,52 +116,139 @@ public class TwoBlockDeliver extends LinearOpMode {
                         .build()
         );
 
-        tools.intake(false, 0);
+        tools.intake(false);
 
         deliverBlock();
-
-        tools.intake(true, 0.7);
 
         drive.followTrajectorySync(
                 drive.trajectoryBuilder()
-                        .splineTo(new Pose2d(15, 0, -Math.PI))
-                        .splineTo(coords.initialBlockCoords.get(blockNum - 3))
+                        .splineTo(coords.underBridgeForwardBridge)
+                        .splineTo(coords.skyStone4StrafeReady)
                         .build()
         );
 
-        tools.intake(false, 0);
+        tools.intake(true);
 
-        //deliverBlock();
+        drive.followTrajectorySync(
+                drive.trajectoryBuilder()
+                        .strafeRight(strafeDist) // 15 lower volt 8 for higher volt
+                        .forward(10)
+                        .build()
+        );
+
+        tools.intake(false);
+
+        postStrafeDelivery();
+
+        tools.intake(true);
+
+        drive.followTrajectorySync(
+                drive.trajectoryBuilder()
+                        .splineTo(coords.lastStone4)
+                        .build()
+        );
+
+        tools.intake(false);
+
+        lastDelivery();
+
+        parkBot();
     }
 
-    private void getBlock(int blockNum) {
-        tools.intake(true, 0.7);
+    private void pos5Actions() {
+        tools.intake(true);
 
-        if (blockNum == 4) {
-            drive.followTrajectorySync(
-                    drive.trajectoryBuilder()
-                            .splineTo(coords.post4coords.get(deliveredStoneCount + 1))
-                            .build()
-            );
-        } else if (blockNum == 5) {
-            drive.followTrajectorySync(
-                    drive.trajectoryBuilder()
-                            .splineTo(coords.post5coords.get(deliveredStoneCount + 1))
-                            .build()
-            );
-        } else if (blockNum == 6) {
-            drive.followTrajectorySync(
-                    drive.trajectoryBuilder()
-                            .splineTo(coords.post6coords.get(deliveredStoneCount + 1))
-                            .build()
-            );
-        }
+        drive.followTrajectorySync(
+                drive.trajectoryBuilder()
+                        .splineTo(coords.initialBlockCoords.get(blockNum))
+                        .build()
+        );
 
-        tools.intake(false, 0);
-
-        deliveredStoneCount++;
+        tools.intake(false);
 
         deliverBlock();
+
+        drive.followTrajectorySync(
+                drive.trajectoryBuilder()
+                        .splineTo(coords.underBridgeForwardBridge)
+                        .splineTo(coords.skyStone5StrafeReady)
+                        .build()
+        );
+
+        tools.intake(true);
+
+        drive.followTrajectorySync(
+                drive.trajectoryBuilder()
+                        .strafeRight(strafeDist)
+                        .forward(10)
+                        .build()
+        );
+
+        tools.intake(false);
+
+        postStrafeDelivery();
+
+        tools.intake(true);
+
+        drive.followTrajectorySync(
+                drive.trajectoryBuilder()
+                        .splineTo(coords.lastStone5)
+                        .build()
+        );
+
+        tools.intake(false);
+
+        lastDelivery();
+
+        parkBot();
+    }
+
+    private void pos6Actions() {
+        tools.intake(true);
+
+        drive.followTrajectorySync(
+                drive.trajectoryBuilder()
+                        .splineTo(coords.initialBlockCoords.get(blockNum))
+                        .build()
+        );
+
+        tools.intake(false);
+
+        deliverBlock();
+
+        drive.followTrajectorySync(
+                drive.trajectoryBuilder()
+                        .splineTo(coords.underBridgeForwardBridge)
+                        .splineTo(coords.skyStone6StrafeReady)
+                        .build()
+        );
+
+        tools.intake(true);
+
+        drive.followTrajectorySync(
+                drive.trajectoryBuilder()
+                        .strafeRight(strafeDist)
+                        .forward(10)
+                        .build()
+        );
+
+        tools.intake(false);
+
+        postStrafeDelivery();
+
+        tools.intake(true);
+
+        drive.followTrajectorySync(
+                drive.trajectoryBuilder()
+                        .splineTo(coords.lastStone6)
+                        .build()
+        );
+
+        tools.intake(false);
+
+        lastDelivery();
+
+        parkBot();
     }
 
     private void deliverBlock() {
@@ -156,19 +256,69 @@ public class TwoBlockDeliver extends LinearOpMode {
         drive.followTrajectorySync(
                 drive.trajectoryBuilder()
                         .reverse()
-                        //.splineTo(coords.underBridgeBackwardBridge)
+                        .splineTo(coords.underBridgeBackwardBridge)
                         .splineTo(coords.bridgeDeliveryBackward)
                         .build()
         );
 
-        tools.intake(true, 1);
+        tools.intake(true);
 
-        sleep(200);
+        sleep(200); // 200 on higher voltage 400 on lower
+
+        tools.intake(false);
+
+    }
+
+    private void postStrafeDelivery() {
+        // Deliver block
+        drive.followTrajectorySync(
+                drive.trajectoryBuilder()
+                        .reverse()
+                        .splineTo(coords.underBridgeBackwardBridgePostStrafe)
+                        .splineTo(coords.bridgeDeliveryBackwardPostStrafe)
+                        .build()
+        );
+
+        tools.intake(true);
+
+        sleep(600); // 600 on higher voltage 800 on lower
+
+        tools.intake(false);
+    }
+
+    private void lastDelivery() {
+        // Deliver block
+        drive.followTrajectorySync(
+                drive.trajectoryBuilder()
+                        .reverse()
+                        .splineTo(coords.lastUnderBridgeBackwardBridge)
+                        .splineTo(coords.lastDelivery)
+                        .build()
+        );
+
+        tools.intake(true);
+
+        sleep(400); // 400 on higher voltage 600 on lower
+
+        tools.intake(false);
+    }
+
+    private void parkBot() {
+        drive.followTrajectorySync(
+                drive.trajectoryBuilder()
+                        .splineTo(coords.parkBridge)
+                        .build()
+        );
     }
 
     private void printTel(String caption, String message) {
         telemetry.addData(caption, message);
         telemetry.update();
+    }
+
+    private void printLocation() {
+        printTel("Ubicación", drive.getPoseEstimate().getX() + ", " + drive.getPoseEstimate().getY());
+        sleep(5000);
     }
 }
 
