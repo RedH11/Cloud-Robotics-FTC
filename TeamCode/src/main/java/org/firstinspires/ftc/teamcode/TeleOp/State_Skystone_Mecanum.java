@@ -4,16 +4,7 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-
-import java.util.Timer;
 
 /**
  * TODO: Use bumpers for turns and the arrows for tape measure
@@ -21,29 +12,23 @@ import java.util.Timer;
  */
 @TeleOp(name="State_Skystone_Mecanum")
 public class State_Skystone_Mecanum extends LinearOpMode {
+
+    // Odometry Variables
+    private final double ticksPerRev = 1449; // 1449 or 1398
+
+    //-1470 - 21
+
     DcMotor lf;
     DcMotor lb;
     DcMotor rf;
     DcMotor rb;
 
-    DcMotor rIntake;
-    DcMotor lIntake;
+    DcMotor rIntake; // also encoder for the front and back odometry
+    DcMotor lIntake; // also the encoder for the strafe odometry
 
     DcMotor tapeLift;
 
-    Servo lFoundation;
-    Servo rFoundation;
-
     private BNO055IMU imu;
-    //private BNO055IMU imu2;
-
-    //Servo spinner;
-    //Servo lFoundation;
-    //Servo rFoundation;
-
-    //Servo tapeRotate;
-
-    private double angleError = 0; // NOT CURRENTLY SET
 
     // Error Variables
     private double turnAccuracyThreshold = 1; // Amount of degrees which the turn should be within
@@ -105,6 +90,19 @@ public class State_Skystone_Mecanum extends LinearOpMode {
         if (bl>1) bl=1;
         if (br>1) br=1;
 
+        // Strafing functionality
+        if(gamepad1.right_bumper){
+            fl = 1;
+            fr = -1;
+            bl = -1;
+            br = 1;
+        }else if(gamepad1.left_bumper){
+            fl = -1;
+            fr = 1;
+            bl = 1;
+            br = -1;
+        }
+
         if (fast) {
             lf.setPower(fl);
             rf.setPower(fr);
@@ -143,11 +141,11 @@ public class State_Skystone_Mecanum extends LinearOpMode {
         rIntake.setPower(rint);
         lIntake.setPower(lint);
 
-        telemetry.addData("lIntake",lint);
-        telemetry.addData("rIntake",rint);
+        //telemetry.addData("lIntake",lint);
+        //telemetry.addData("rIntake",rint);
     }
 
-    public void foundationServo() {
+    /*public void foundationServo() {
         if (gamepad1.left_bumper || gamepad1.right_bumper){
             if (lFoundation.getPosition() == 1) {
                 lFoundation.setPosition(0.5);
@@ -159,7 +157,7 @@ public class State_Skystone_Mecanum extends LinearOpMode {
         }
 
         while (gamepad1.left_stick_button || gamepad2.left_stick_button);
-    }
+    }*/
 
     private void tapeMeasure() {
         if (gamepad1.dpad_up) tapeLift.setPower(-1);
@@ -202,6 +200,15 @@ public class State_Skystone_Mecanum extends LinearOpMode {
         lIntake = hardwareMap.dcMotor.get("lIntake");
         rIntake = hardwareMap.dcMotor.get("rIntake");
 
+        // Odometry resetting the encoders
+        lIntake.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rIntake.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        tapeLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        lIntake.setMode(DcMotor.RunMode.RUN_USING_ENCODER); // front 2
+        rIntake.setMode(DcMotor.RunMode.RUN_USING_ENCODER); // front 1
+        tapeLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER); // strafing
+
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
@@ -209,15 +216,16 @@ public class State_Skystone_Mecanum extends LinearOpMode {
 
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Say", "Ready");
-
-        lFoundation = hardwareMap.servo.get("lFoundation");
+        telemetry.update();
+        // Foundation Grabbers initialization
+        /*lFoundation = hardwareMap.servo.get("lFoundation");
         rFoundation = hardwareMap.servo.get("rFoundation");
 
         rFoundation.setDirection(Servo.Direction.REVERSE);
         lFoundation.setDirection(Servo.Direction.REVERSE);
         // Set the servos to their initial position
         lFoundation.setPosition(-1);
-        rFoundation.setPosition(-1);
+        rFoundation.setPosition(-1);*/
     }
 
     /*
@@ -229,6 +237,29 @@ public class State_Skystone_Mecanum extends LinearOpMode {
 
         telemetry.addData("Init", "Ready!");
         waitForStart();
+
+        Thread teleTracking = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                while (opModeIsActive()) {
+                    if (fast) telemetry.addData("MODE: ", "Fast");
+                    else telemetry.addData("MODE: ", "Slow");
+
+                    double rIntakeVal = rIntake.getCurrentPosition();
+
+                    telemetry.addData("Front Tel 1", rIntake.getCurrentPosition());
+                    telemetry.addData("Front Tel 2", tapeLift.getCurrentPosition());
+                    telemetry.addData("Strafe Tel", lIntake.getCurrentPosition());
+
+
+                    telemetry.addData("Front Tel 1 Calculation", rIntake.getCurrentPosition() / ticksPerRev);
+                    telemetry.update();
+                }
+            }
+        });
+
+        teleTracking.start();
 
         while (opModeIsActive()) {
             intake();
@@ -243,14 +274,11 @@ public class State_Skystone_Mecanum extends LinearOpMode {
 
             mecanumDrive();
 
-            foundationServo();
+            //foundationServo();
 
             tapeMeasure();
 
-            if (fast) telemetry.addData("MODE: ", "Fast");
-            else telemetry.addData("MODE: ", "Slow");
-
-            telemetry.update();
+            //telemetry.update();
 
             //telemetry.addData("rb", br);
             //telemetry.addData("rf", fr);
