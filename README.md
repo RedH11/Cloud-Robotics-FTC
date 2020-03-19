@@ -45,7 +45,7 @@ For objects that are obscured, label the part that is visible
 
 ###### Neural Network Size:
 
-I found that it was necessary to use the YOLO-tiny configuration he explains for the processing power of our SamsungGalaxyS5
+I found that it was necessary to use the YOLO-tiny configuration for the processing power of our SamsungGalaxyS5
 
 ## Helpful Sources
 
